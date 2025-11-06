@@ -11,6 +11,7 @@ import { Switch } from '@/components/ui/switch'
 import { ConnectButton } from '@rainbow-me/rainbowkit'
 import { useAccount, usePublicClient } from 'wagmi'
 import OGImageUploader from './OGImageUploader'
+import { ogStorageSDK } from '../../lib/0gStorageSDK'
 import { newFactoryService } from '../../lib/newFactoryService'
 import { CONTRACT_CONFIG, verifyFactoryContract } from '../../lib/contract-config'
 

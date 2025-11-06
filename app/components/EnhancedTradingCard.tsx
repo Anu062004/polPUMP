@@ -187,8 +187,7 @@ export default function EnhancedTradingCard({
   const handleTradeAmountChange = async (amount: string) => {
     setTradeAmount(amount)
     
-    // Block quoting if curve not ready/seeded
-    if (!amount || parseFloat(amount) <= 0 || !curveAddressState || (curveInfo && !curveInfo.seeded)) {
+    if (!amount || parseFloat(amount) <= 0 || !curveAddressState) {
       return
     }
       
@@ -208,10 +207,6 @@ export default function EnhancedTradingCard({
   // Handle trade execution
   const handleTrade = async () => {
     if (!tradeAmount || parseFloat(tradeAmount) <= 0 || !curveAddressState) {
-      return
-    }
-    if (curveInfo && !curveInfo.seeded) {
-      alert('Trading is not available yet. The bonding curve is not seeded. Try again later.')
       return
     }
     
@@ -387,7 +382,7 @@ export default function EnhancedTradingCard({
         )}
 
         {/* Trading Interface */}
-        {isConnected && curveAddressState && curveInfo?.seeded && (
+        {isConnected && curveAddressState && (
           <div className="rounded-2xl p-4 mb-6 bg-white border-4 border-black shadow-[6px_6px_0_#000]">
             <h3 className="text-lg font-extrabold mb-4 text-slate-900">Trade {tokenSymbol}</h3>
             
@@ -461,14 +456,6 @@ export default function EnhancedTradingCard({
             >
               {isTrading ? 'Processing...' : `${tradeType === 'buy' ? 'Buy' : 'Sell'} ${tokenSymbol}`}
             </button>
-          </div>
-        )}
-
-        {/* Not seeded notice */}
-        {isConnected && curveAddressState && curveInfo && !curveInfo.seeded && (
-          <div className="text-center py-6 bg-yellow-50 border-4 border-black rounded-2xl shadow-[6px_6px_0_#000]">
-            <div className="text-yellow-800 font-extrabold">Bonding curve not seeded yet</div>
-            <div className="text-yellow-700 text-sm">Please wait a minute and refresh; trading will be enabled once seeding completes.</div>
           </div>
         )}
 

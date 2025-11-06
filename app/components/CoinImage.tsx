@@ -1,6 +1,6 @@
 'use client'
 import { useEffect, useMemo, useState } from 'react'
-import { CoinData } from '../../lib/polStorageSDK'
+import { CoinData } from '../../lib/0gStorageSDK'
 
 interface CoinImageProps {
   coin: CoinData & { imageHash?: string; imageRootHash?: string; imageUrl?: string }

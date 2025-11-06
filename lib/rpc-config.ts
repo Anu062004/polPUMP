@@ -9,7 +9,7 @@ export const RPC_CONFIG = {
     : 'http://localhost:4000/api/rpc',
   
   // Direct Polygon Amoy testnet RPC (Infura)
-  POLYGON_AMOY_RPC: 'https://polygon-amoy.infura.io/v3/b4f237515b084d4bad4e5de070b0452f',
+  POLYGON_AMOY_RPC: process.env.NEXT_PUBLIC_EVM_RPC || process.env.POLYGON_AMOY_RPC || 'https://polygon-amoy.infura.io/v3/b4f237515b084d4bad4e5de070b0452f',
   
   // Chain configuration
   CHAIN_ID: 80002,

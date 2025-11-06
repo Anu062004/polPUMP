@@ -13,7 +13,7 @@ import CoinImage from './components/CoinImage'
 import EnhancedTradingCard from './components/EnhancedTradingCard'
 import { ConnectButton } from '@rainbow-me/rainbowkit'
 import { useAccount } from 'wagmi'
-import { CoinData, polStorageSDK } from '../lib/polStorageSDK'
+import { CoinData, ogStorageSDK } from '../lib/0gStorageSDK'
 
 // Extended interface for coins with additional properties from backend
 interface ExtendedCoinData extends CoinData {
@@ -78,7 +78,6 @@ export default function App() {
     setMounted(true)
   }, [])
 
-
   // Load previously created coins from storage on startup
   useEffect(() => {
     const loadStoredCoins = async () => {
@@ -87,7 +86,7 @@ export default function App() {
         console.log('Loading coins from storage...');
         
         // Get all coins from storage
-        const storedCoins = await polStorageSDK.getAllCoins();
+        const storedCoins = await ogStorageSDK.getAllCoins();
         
         if (storedCoins.length > 0) {
           console.log('Found stored coins:', storedCoins);
@@ -284,7 +283,7 @@ export default function App() {
         discordUrl: tokenData.discordUrl,
         websiteUrl: tokenData.websiteUrl
       } as any
-      await polStorageSDK.saveCoinToLocal(coin)
+      await ogStorageSDK.saveCoinToLocal(coin)
       setAllCoins((prev) => [coin, ...prev])
       setTrendingCoins((prev) => [coin, ...prev])
 
@@ -324,7 +323,7 @@ export default function App() {
       <div className="fixed inset-0 -z-10" />
       
       {/* Left Sidebar */}
-        <div className="w-64 glass border-r border-[rgba(255,255,255,0.06)] p-6 flex flex-col">
+        <div className="w-64 funky-box border-r border-emerald-400/30 p-6 flex flex-col">
         {/* Logo */}
         <div className="flex items-center gap-3 mb-8">
           {logoFailed ? (
@@ -332,49 +331,49 @@ export default function App() {
           ) : (
             // Provide your image at /og-logo.png or via NEXT_PUBLIC_LOGO_URL (e.g., /download/<rootHash>)
             <img
-              src={(process.env.NEXT_PUBLIC_LOGO_URL as string) || '/pump-logo.jpg'}
+              src={(process.env.NEXT_PUBLIC_LOGO_URL as string) || '/og-logo.jpg'}
               alt="App logo"
               className="w-14 h-14 rounded-2xl nb-border nb-shadow-sm object-cover"
               onError={() => setLogoFailed(true)}
             />
           )}
-          <span className="text-2xl font-semibold" style={{ fontFamily: 'Inter, Poppins, sans-serif' }}>POL Pump</span>
+          <span className="text-4xl funky-text funky-glow" style={{ fontFamily: 'fantasy' }}>POL Pump</span>
         </div>
 
         {/* Navigation */}
-        <nav className="flex-1 space-y-2">
-          <a href="#" className="card flex items-center gap-3 px-4 py-3 mb-1">
+        <nav className="flex-1 space-y-3">
+          <a href="#" className="funky-card flex items-center gap-3 px-4 py-3 mb-2 hover:scale-105">
             <Home className="w-5 h-5 text-emerald-300" />
-            <span className="text-white/90 font-medium">Home</span>
+            <span className="text-white font-semibold">Home</span>
           </a>
 
-          <Link href="/livestreams" className="card flex items-center gap-3 px-4 py-3 mb-1">
+          <Link href="/livestreams" className="funky-card flex items-center gap-3 px-4 py-3 mb-2 hover:scale-105">
             <Video className="w-5 h-5 text-teal-300" />
-            <span className="text-white/90 font-medium">Livestreams</span>
+            <span className="text-white font-semibold">Livestreams</span>
           </Link>
-          <Link href="/ai-suggestions" className="card flex items-center gap-3 px-4 py-3 mb-1">
+          <Link href="/ai-suggestions" className="funky-card flex items-center gap-3 px-4 py-3 mb-2 hover:scale-105">
             <Zap className="w-5 h-5 text-cyan-300" />
-            <span className="text-white/90 font-medium">Advanced</span>
+            <span className="text-white font-semibold">Advanced</span>
           </Link>
-          <Link href="/ai-chat" className="card flex items-center gap-3 px-4 py-3 mb-1">
+          <Link href="/ai-chat" className="funky-card flex items-center gap-3 px-4 py-3 mb-2 hover:scale-105">
             <MessageCircle className="w-5 h-5 text-emerald-300" />
-            <span className="text-white/90 font-medium">Ask PumpAI</span>
+            <span className="text-white font-semibold">Ask PumpAI</span>
           </Link>
-          <Link href="/gaming" className="card flex items-center gap-3 px-4 py-3 mb-1">
+          <Link href="/gaming" className="funky-card flex items-center gap-3 px-4 py-3 mb-2 hover:scale-105">
             <Zap className="w-5 h-5 text-teal-300" />
-            <span className="text-white/90 font-medium">Gaming</span>
+            <span className="text-white font-semibold">Gaming</span>
           </Link>
-          <Link href="/profile" className="card flex items-center gap-3 px-4 py-3 mb-1">
+          <Link href="/profile" className="funky-card flex items-center gap-3 px-4 py-3 mb-2 hover:scale-105">
             <User className="w-5 h-5 text-cyan-300" />
-            <span className="text-white/90 font-medium">Profile</span>
+            <span className="text-white font-semibold">Profile</span>
           </Link>
-          <a href="#" className="card flex items-center gap-3 px-4 py-3 mb-1">
+          <a href="#" className="funky-card flex items-center gap-3 px-4 py-3 mb-2 hover:scale-105">
             <HelpCircle className="w-5 h-5 text-emerald-300" />
-            <span className="text-white/90 font-medium">Support</span>
+            <span className="text-white font-semibold">Support</span>
           </a>
-          <a href="#" className="card flex items-center gap-3 px-4 py-3 mb-1">
+          <a href="#" className="funky-card flex items-center gap-3 px-4 py-3 mb-2 hover:scale-105">
             <MoreHorizontal className="w-5 h-5 text-teal-300" />
-            <span className="text-white/90 font-medium">More</span>
+            <span className="text-white font-semibold">More</span>
           </a>
         </nav>
 
@@ -395,7 +394,7 @@ export default function App() {
         <Button
           onClick={() => setIsTokenModalOpen(true)}
           disabled={mounted ? !isConnected : true}
-          className="btn-gradient w-full text-white rounded-xl py-4 flex items-center justify-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed"
+          className="funky-button w-full text-white font-black rounded-2xl py-4 flex items-center justify-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed"
         >
           <Plus className="w-5 h-5" />
           {mounted && isConnected ? 'Create coin' : 'Connect wallet to create coin'}
@@ -420,7 +419,7 @@ export default function App() {
       {/* Main Content */}
       <div className="flex-1 flex flex-col">
         {/* Top Bar */}
-        <div className="glass border-b border-[rgba(255,255,255,0.06)] p-6">
+        <div className="funky-box border-b border-emerald-400/30 p-6">
           <div className="flex items-center justify-between">
             {/* Alert Banner */}
             <div className="px-4 py-2 rounded-xl funky-card border-emerald-400/50 animate-pulse-glow">
@@ -430,10 +429,10 @@ export default function App() {
             {/* Search and Actions */}
             <div className="flex items-center gap-4">
               <div className="relative">
-                <Search className="absolute left-4 top-1/2 transform -translate-y-1/2 w-4 h-4 text-[#00D1FF]" />
+                <Search className="absolute left-4 top-1/2 transform -translate-y-1/2 w-4 h-4 text-emerald-300" />
                 <Input 
                   placeholder="Search coins by name, symbol, or description..." 
-                  className="input-modern pl-12 w-64"
+                  className="funky-input pl-12 w-64"
                   value={searchQuery}
                   onChange={(e) => setSearchQuery(e.target.value)}
                 />
@@ -443,7 +442,7 @@ export default function App() {
                   </div>
                 )}
               </div>
-              <Button onClick={() => setSearchQuery('')} className="btn-gradient">
+              <Button onClick={() => setSearchQuery('')} className="funky-button">
                 {searchQuery ? 'Clear Search' : 'Search'}
               </Button>
               {mounted && <ConnectButton />}
@@ -455,7 +454,7 @@ export default function App() {
         <div className="flex-1 p-6 overflow-y-auto">
           {/* Status Banner */}
           {mounted && (
-            <div className="mb-4 px-4 py-3 card">
+            <div className="mb-4 px-4 py-3 funky-card border-emerald-400/50">
               <div className="flex items-center justify-between">
                 <div className="flex items-center gap-2">
                   <div className="w-2 h-2 bg-cyan-400 rounded-full animate-pulse-glow"></div>
@@ -463,7 +462,7 @@ export default function App() {
                     {searchQuery ? `Search results for "${searchQuery}"` : 'Real Trading Platform • Polygon Amoy Integration'}
                   </span>
                 </div>
-                <span className="text-xs px-2 py-1 rounded glass text-white font-medium">
+                <span className="text-xs px-2 py-1 rounded funky-card border-emerald-400/50 text-white font-bold">
                   {searchQuery ? `${trendingCoins.length} search result${trendingCoins.length !== 1 ? 's' : ''}` : `${allCoins.length} real tokens`}
                 </span>
               </div>
@@ -474,7 +473,7 @@ export default function App() {
           <motion.div
             initial={{ opacity: 0, y: -10 }}
             animate={{ opacity: 1, y: 0 }}
-            className="mb-6 card animate-float"
+            className="mb-6 funky-box border-emerald-400/50 animate-float"
           >
             <div className="flex items-center gap-3">
                 <div className="w-10 h-10 bg-gradient-to-br from-emerald-500/30 to-teal-500/30 rounded-full flex items-center justify-center border-2 border-emerald-400/50">
@@ -495,26 +494,26 @@ export default function App() {
           {mounted && isConnected && (
             <div className="mb-8">
               <div className="flex items-center justify-between mb-6">
-                <h2 className="text-2xl font-semibold text-white" style={{ fontFamily: 'Inter, Poppins, sans-serif' }}>
+                <h2 className="text-3xl funky-text funky-glow" style={{ fontFamily: 'fantasy' }}>
                   Your Trading Dashboard
                 </h2>
-                <Badge className="glass text-white/90">
+                <Badge className="funky-card border-green-400/50 text-green-300 animate-pulse-glow">
                   Connected
                 </Badge>
               </div>
               
-              <div className="card animate-float">
+              <div className="funky-box border-emerald-400/50 animate-float">
                 <div className="text-center py-6">
-                  <div className="w-16 h-16 bg-[rgba(255,255,255,0.06)] rounded-full flex items-center justify-center mx-auto mb-4 border border-[rgba(255,255,255,0.08)]">
+                  <div className="w-16 h-16 bg-gradient-to-br from-emerald-500/30 to-teal-500/30 rounded-full flex items-center justify-center mx-auto mb-4 border-2 border-emerald-400/50 animate-pulse-glow">
                     <TrendingUp className="w-8 h-8 text-cyan-300" />
                   </div>
-                  <h4 className="text-lg font-medium text-white mb-2">Ready to Trade!</h4>
-                  <p className="muted mb-4">
+                  <h4 className="text-lg font-bold text-white mb-2 funky-glow">Ready to Trade!</h4>
+                  <p className="text-cyan-200 mb-4">
                     Connect your wallet and start trading tokens. All data shown is real and user-generated.
                   </p>
                   <Button
                     onClick={() => setIsTokenModalOpen(true)}
-                    className="btn-gradient"
+                    className="funky-button"
                     size="lg"
                   >
                     Create Your First Token
@@ -527,7 +526,7 @@ export default function App() {
           {/* Trading Section */}
           <div className="mb-8">
             <div className="flex items-center justify-between mb-6">
-              <h2 className="text-2xl font-semibold text-white">
+              <h2 className="text-3xl font-bold funky-text funky-glow">
                 {searchQuery ? `Search Results for "${searchQuery}"` : 'Trade Tokens'}
               </h2>
               <div className="flex items-center gap-2">
@@ -564,18 +563,18 @@ export default function App() {
                     }
                     setIsLoading(false);
                   }}
-                  className="btn-gradient px-4 py-2"
+                  className="funky-button px-4 py-2"
                 >
                   <TrendingUp className="w-4 h-4 mr-2" />
                   Refresh
                 </Button>
                 <Button
-                  className="btn-gradient w-10 h-10 p-0"
+                  className="funky-button w-10 h-10 p-0"
                 >
                   <ChevronLeft className="w-5 h-5" />
                 </Button>
                 <Button
-                  className="btn-gradient w-10 h-10 p-0"
+                  className="funky-button w-10 h-10 p-0"
                 >
                   <ChevronRight className="w-5 h-5" />
                 </Button>
@@ -590,7 +589,7 @@ export default function App() {
                   <Button
                     key={index}
                     onClick={() => toggleCategory(category.name)}
-                    className={`btn-gradient text-sm px-4 py-2 ${isActive ? '' : ''}`}
+                    className={`funky-button text-sm px-4 py-2 ${isActive ? 'border-cyan-400' : 'border-emerald-400/30'} ${isActive ? 'animate-pulse-glow' : ''}`}
                   >
                     {category.name}
                   </Button>
@@ -604,7 +603,7 @@ export default function App() {
                     const nextIndex = (currentIndex + 1) % options.length
                     setSortOption(options[nextIndex])
                   }}
-                  className="btn-gradient text-sm px-4 py-2 flex items-center gap-2"
+                  className="funky-button text-sm px-4 py-2 flex items-center gap-2"
                 >
                   <Filter className="w-4 h-4" />
                   sort: {sortOption}
@@ -617,14 +616,14 @@ export default function App() {
               {isLoading ? (
                 // Loading skeleton - show more items since we're displaying all tokens
                 Array.from({ length: Math.min(12, allCoins.length || 12) }).map((_, index) => (
-                  <div key={index} className="card animate-pulse">
+                  <div key={index} className="funky-card animate-pulse">
                     <div className="flex items-start gap-4 mb-4">
-                      <div className="w-14 h-14 rounded-2xl bg-[rgba(255,255,255,0.06)]"></div>
+                      <div className="w-14 h-14 rounded-2xl bg-purple-900/40"></div>
                       <div className="flex-1">
-                        <div className="h-6 bg-[rgba(255,255,255,0.06)] rounded mb-2"></div>
-                        <div className="h-4 bg-[rgba(255,255,255,0.06)] rounded mb-3 w-20"></div>
-                        <div className="h-4 bg-[rgba(255,255,255,0.06)] rounded mb-4"></div>
-                        <div className="h-3 bg-[rgba(255,255,255,0.06)] rounded w-32"></div>
+                        <div className="h-6 bg-purple-900/40 rounded mb-2"></div>
+                        <div className="h-4 bg-purple-900/40 rounded mb-3 w-20"></div>
+                        <div className="h-4 bg-purple-900/40 rounded mb-4"></div>
+                        <div className="h-3 bg-purple-900/40 rounded w-32"></div>
                       </div>
                     </div>
                   </div>
@@ -632,12 +631,12 @@ export default function App() {
               ) : trendingCoins.length === 0 ? (
                 // No results message
                 <div className="col-span-full text-center py-12">
-                  <div className="card">
-                    <Search className="w-16 h-16 text-[#00D1FF] mx-auto mb-4 animate-float" />
-                    <h3 className="text-xl font-semibold text-white mb-2">
+                  <div className="funky-box border-emerald-400/50">
+                    <Search className="w-16 h-16 text-emerald-300 mx-auto mb-4 animate-float" />
+                    <h3 className="text-xl font-bold text-white mb-2 funky-glow">
                       {searchQuery ? 'No coins found' : 'No tokens created yet'}
                     </h3>
-                    <p className="muted mb-4">
+                    <p className="text-cyan-200 mb-4">
                       {searchQuery 
                         ? `No coins match your search for "${searchQuery}". Try different keywords.`
                         : 'Be the first to create a token! Connect your wallet and click "Create coin" to get started.'
@@ -646,7 +645,7 @@ export default function App() {
                     {searchQuery && (
                       <Button 
                         onClick={() => setSearchQuery('')}
-                        className="btn-gradient"
+                        className="funky-button"
                       >
                         Clear Search
                       </Button>
@@ -661,7 +660,7 @@ export default function App() {
                     animate={{ opacity: 1, y: 0 }}
                     transition={{ duration: 0.3, delay: index * 0.1 }}
                     whileHover={{ scale: 1.05, y: -8 }}
-                    className="card"
+                    className="funky-card"
                   >
                     <EnhancedTradingCard 
                       tokenAddress={coin.tokenAddress || ''}

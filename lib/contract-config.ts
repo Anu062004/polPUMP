@@ -28,7 +28,7 @@ export const CONTRACT_CONFIG = {
   // Network configuration
   NETWORK: 'polygon-amoy-testnet',
   CHAIN_ID: 80002,
-  RPC_URL: 'https://polygon-amoy.infura.io/v3/b4f237515b084d4bad4e5de070b0452f',
+  RPC_URL: process.env.NEXT_PUBLIC_EVM_RPC || process.env.POLYGON_AMOY_RPC || 'https://polygon-amoy.infura.io/v3/b4f237515b084d4bad4e5de070b0452f',
   
   // Contract ABIs are imported from lib/abis.ts
 }
