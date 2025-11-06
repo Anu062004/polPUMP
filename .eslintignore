@@ -1,0 +1,11 @@
+.next
+node_modules
+artifacts
+cache
+deployments
+public
+server
+artifacts
+**/*.sol
+
+
