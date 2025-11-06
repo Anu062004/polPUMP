@@ -1,9 +1,9 @@
 {
   "version": 2,
   "functions": {
-    "api/**/*": {
-      "runtime": "nodejs20.x"
-    }
+    "api/**/*.{js,ts}": { "runtime": "nodejs20.x" },
+    "pages/api/**/*.{js,ts}": { "runtime": "nodejs20.x" },
+    "app/**/route.{js,ts}": { "runtime": "nodejs20.x" }
   }
 }
 
