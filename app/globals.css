@@ -1,0 +1,129 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    /* Neo-brutalism palette */
+    --background: 48 100% 97%; /* warm off-white */
+    --foreground: 0 0% 0%; /* black text */
+    --card: 0 0% 100%;
+    --card-foreground: 0 0% 0%;
+    --popover: 0 0% 100%;
+    --popover-foreground: 0 0% 0%;
+    --primary: 48 96% 60%; /* yellow accent */
+    --primary-foreground: 0 0% 0%;
+    --secondary: 210 40% 96%;
+    --secondary-foreground: 0 0% 0%;
+    --muted: 210 40% 96%;
+    --muted-foreground: 215.4 16.3% 30%;
+    --accent: 200 90% 55%; /* blue accent */
+    --accent-foreground: 0 0% 0%;
+    --destructive: 0 84.2% 60.2%;
+    --destructive-foreground: 0 0% 0%;
+    --border: 0 0% 0%; /* use black borders */
+    --input: 0 0% 100%;
+    --ring: 0 0% 0%;
+    --radius: 0.5rem;
+  }
+
+  .dark {
+    --background: 0 0% 9%;
+    --foreground: 0 0% 100%;
+    --card: 0 0% 15%;
+    --card-foreground: 0 0% 100%;
+    --popover: 0 0% 12%;
+    --popover-foreground: 0 0% 100%;
+    --primary: 48 96% 60%;
+    --primary-foreground: 0 0% 0%;
+    --secondary: 0 0% 18%;
+    --secondary-foreground: 0 0% 100%;
+    --muted: 0 0% 18%;
+    --muted-foreground: 0 0% 80%;
+    --accent: 200 90% 55%;
+    --accent-foreground: 0 0% 0%;
+    --destructive: 0 62.8% 40.6%;
+    --destructive-foreground: 0 0% 100%;
+    --border: 0 0% 100%;
+    --input: 0 0% 12%;
+    --ring: 0 0% 100%;
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+  body {
+    @apply bg-background text-foreground;
+  }
+}
+
+@layer components {
+  /* Neo-brutalism helpers */
+  .nb-border {
+    @apply border-2 border-black;
+  }
+  .nb-shadow {
+    box-shadow: 6px 6px 0 0 #000;
+  }
+  .nb-shadow-sm {
+    box-shadow: 4px 4px 0 0 #000;
+  }
+  .nb-shadow-lg {
+    box-shadow: 8px 8px 0 0 #000;
+  }
+  /* Shared press/lift behavior */
+  .nb-press {
+    @apply transition-transform hover:translate-x-1 hover:translate-y-1 hover:shadow-[2px_2px_0_#000] active:translate-x-2 active:translate-y-2 active:shadow-none;
+  }
+  
+  /* Neon Gaming Styles */
+  .neon-box {
+    @apply backdrop-blur-xl border-2 rounded-2xl p-6 transition-all duration-300;
+  }
+  
+  .neon-button {
+    @apply px-6 py-3 rounded-xl font-black transition-all duration-300 transform hover:scale-105 hover:shadow-2xl border-2;
+  }
+  
+  .neon-input {
+    @apply bg-gray-900/50 border-2 border-purple-500 rounded-xl px-4 py-3 text-white font-semibold placeholder-purple-300/50 focus:border-pink-400 focus:shadow-[0_0_20px_rgba(236,72,153,0.5)] transition-all;
+  }
+  
+  .neon-text {
+    @apply font-black drop-shadow-[0_0_10px_rgba(168,85,247,0.8)];
+  }
+}
+
+@layer utilities {
+  /* Blob Animation */
+  @keyframes blob {
+    0%, 100% {
+      transform: translate(0px, 0px) scale(1);
+    }
+    33% {
+      transform: translate(30px, -50px) scale(1.1);
+    }
+    66% {
+      transform: translate(-20px, 20px) scale(0.9);
+    }
+  }
+  
+  .animate-blob {
+    animation: blob 7s infinite;
+  }
+  
+  .animation-delay-2000 {
+    animation-delay: 2s;
+  }
+  
+  .animation-delay-4000 {
+    animation-delay: 4s;
+  }
+  
+  .animation-delay-200 {
+    animation-delay: 0.2s;
+  }
+}
+
