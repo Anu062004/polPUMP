@@ -3,6 +3,17 @@ import { ethers } from 'ethers'
 // Backend API configuration (same as existing system)
 const BACKEND_URL = (typeof process !== 'undefined' && (process as any).env && (process as any).env.NEXT_PUBLIC_BACKEND_URL) || 'http://localhost:4000'
 
+async function backendFetch(input: string, init?: RequestInit & { timeoutMs?: number }) {
+  const timeoutMs = init?.timeoutMs ?? 5000
+  const controller = new AbortController()
+  const id = setTimeout(() => controller.abort(), timeoutMs)
+  try {
+    return await fetch(input, { ...init, signal: controller.signal })
+  } finally {
+    clearTimeout(id)
+  }
+}
+
 export interface UserProfile {
   walletAddress: string
   username?: string
@@ -61,13 +72,21 @@ export class UserProfileManager {
    */
   async getProfile(walletAddress: string): Promise<UserProfile | null> {
     try {
-      const response = await fetch(`${BACKEND_URL}/profile/${walletAddress}`)
-      const data = await response.json()
-      
-      if (data.success && data.profile) {
-        return data.profile as UserProfile
+      // Try backend first
+      try {
+        const response = await backendFetch(`${BACKEND_URL}/profile/${walletAddress}`, { timeoutMs: 4000 })
+        if (response.ok) {
+          const data = await response.json()
+          if (data.success && data.profile) return data.profile as UserProfile
+        }
+      } catch {}
+
+      // Fallback to local Next.js API
+      const localRes = await fetch(`/api/profile/${walletAddress}`, { cache: 'no-store' })
+      if (localRes.ok) {
+        const localData = await localRes.json()
+        if (localData.success) return localData.profile as UserProfile | null
       }
-      
       return null
     } catch (error) {
       console.error('Error getting user profile:', error)
@@ -83,21 +102,29 @@ export class UserProfileManager {
       // Update timestamp
       profile.updatedAt = new Date().toISOString()
 
-      const response = await fetch(`${BACKEND_URL}/profile/${profile.walletAddress}`, {
+      // Try backend first
+      try {
+        const response = await backendFetch(`${BACKEND_URL}/profile/${profile.walletAddress}`, {
+          method: 'PUT',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(profile),
+          timeoutMs: 4000
+        })
+        if (response.ok) {
+          const data = await response.json()
+          if (data.success) return { success: true, txHash: data.txHash }
+        }
+      } catch {}
+
+      // Fallback to local Next API
+      const localRes = await fetch(`/api/profile/${profile.walletAddress}`, {
         method: 'PUT',
-        headers: {
-          'Content-Type': 'application/json',
-        },
+        headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(profile)
       })
-
-      const data = await response.json()
-      
-      if (data.success) {
-        return { success: true, txHash: data.txHash }
-      } else {
-        return { success: false, error: data.error || 'Failed to save profile' }
-      }
+      const localData = await localRes.json()
+      if (localRes.ok && localData.success) return { success: true }
+      return { success: false, error: localData?.error || 'Failed to save profile' }
     } catch (error: any) {
       return { success: false, error: error.message }
     }
@@ -244,18 +271,24 @@ export class UserProfileManager {
       const formData = new FormData()
       formData.append('avatar', imageFile)
 
-      const response = await fetch(`${BACKEND_URL}/profile/${walletAddress}/avatar`, {
-        method: 'POST',
-        body: formData
-      })
+      // Try backend first
+      try {
+        const response = await backendFetch(`${BACKEND_URL}/profile/${walletAddress}/avatar`, {
+          method: 'POST',
+          body: formData,
+          timeoutMs: 4000
+        })
+        if (response.ok) {
+          const data = await response.json()
+          if (data.success) return { success: true, url: data.avatarUrl }
+        }
+      } catch {}
 
-      const data = await response.json()
-      
-      if (data.success) {
-        return { success: true, url: data.avatarUrl }
-      } else {
-        return { success: false, error: data.error || 'Failed to upload avatar' }
-      }
+      // Fallback to local Next API
+      const localRes = await fetch(`/api/profile/${walletAddress}/avatar`, { method: 'POST', body: formData })
+      const localData = await localRes.json()
+      if (localRes.ok && localData.success) return { success: true, url: localData.avatarUrl }
+      return { success: false, error: localData?.error || 'Failed to upload avatar' }
     } catch (error: any) {
       return { success: false, error: error.message }
     }
@@ -280,12 +313,19 @@ export class UserProfileManager {
    */
   async deleteProfile(walletAddress: string): Promise<{ success: boolean; error?: string }> {
     try {
-      const response = await fetch(`${BACKEND_URL}/profile/${walletAddress}`, {
-        method: 'DELETE'
-      })
+      // Try backend first
+      try {
+        const response = await backendFetch(`${BACKEND_URL}/profile/${walletAddress}`, { method: 'DELETE', timeoutMs: 4000 })
+        if (response.ok) {
+          const data = await response.json()
+          return { success: !!data.success, error: data.error }
+        }
+      } catch {}
 
-      const data = await response.json()
-      return { success: data.success, error: data.error }
+      // Fallback to local
+      const localRes = await fetch(`/api/profile/${walletAddress}`, { method: 'DELETE' })
+      const localData = await localRes.json()
+      return { success: !!localData.success, error: localData.error }
     } catch (error: any) {
       return { success: false, error: error.message }
     }

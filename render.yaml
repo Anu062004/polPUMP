@@ -1,0 +1,17 @@
+services:
+  - type: web
+    name: pol-pump
+    env: node
+    plan: free
+    buildCommand: npm install --legacy-peer-deps && npm run build
+    startCommand: npm run start
+    envVars:
+      - key: NODE_VERSION
+        value: 18
+      - key: NEXT_PUBLIC_EVM_RPC
+        sync: false
+      - key: NEXT_PUBLIC_FACTORY_ADDRESS
+        sync: false
+      - key: NEXT_PUBLIC_BACKEND_URL
+        sync: false
+

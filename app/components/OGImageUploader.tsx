@@ -9,7 +9,7 @@ interface OGImageUploaderProps {
   className?: string;
 }
 
-export default function OGImageUploader({ onImageUploaded, className = "" }: OGImageUploaderProps) {
+export default function PolImageUploader({ onImageUploaded, className = "" }: OGImageUploaderProps) {
   const [file, setFile] = useState<File | null>(null);
   const [previewUrl, setPreviewUrl] = useState<string | null>(null);
   const [isDragging, setIsDragging] = useState(false);

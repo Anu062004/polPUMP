@@ -1,3 +1,4 @@
+export const runtime = 'nodejs'
 import { NextRequest, NextResponse } from 'next/server'
 import { ethers } from 'ethers'
 import { promises as fs } from 'fs'
@@ -174,8 +175,8 @@ export async function GET(
 
     // Also try to load from storage SDK as fallback
     try {
-      const { ogStorageSDK } = await import('../../../../lib/0gStorageSDK')
-      const storedCoins = await ogStorageSDK.getAllCoins()
+      const { polStorageSDK } = await import('../../../../../lib/polStorageSDK')
+      const storedCoins = await polStorageSDK.getAllCoins()
       
       // Merge stored coins that aren't already in database
       for (const coin of storedCoins) {

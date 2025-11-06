@@ -2,6 +2,11 @@
 const nextConfig = {
   reactStrictMode: true,
   swcMinify: true,
+  output: 'standalone',
+  experimental: {
+    serverComponentsExternalPackages: ['ethers', 'sqlite3'],
+    externalDir: true,
+  },
   images: {
     domains: ['localhost'],
     unoptimized: false,

@@ -798,11 +798,12 @@ export default function GamingPage() {
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
               <div className={`border-2 rounded-lg p-5 ${stakeSide === 'left' ? 'border-blue-500 bg-blue-50' : 'border-gray-200'}`}>
                 <h3 className="font-bold text-lg mb-3">🥊 Left Fighter</h3>
-                <select
+                  <select
                   value={leftCoin?.id || ''}
                   onChange={(e) => {
-                    const coin = allCoins.find(c => c.id === parseInt(e.target.value))
-                    setLeftCoin(coin ? {...coin, id: coin.id} : null)
+                    const selectedId = e.target.value
+                    const coin = allCoins.find(c => String(c.id) === String(selectedId))
+                    setLeftCoin(coin ? { ...coin, id: coin.id } : null)
                   }}
                   className="w-full border-2 rounded-lg px-3 py-2 mb-3 font-medium"
                   disabled={isBattling}
@@ -833,11 +834,12 @@ export default function GamingPage() {
 
               <div className={`border-2 rounded-lg p-5 ${stakeSide === 'right' ? 'border-purple-500 bg-purple-50' : 'border-gray-200'}`}>
                 <h3 className="font-bold text-lg mb-3">🥊 Right Fighter</h3>
-                <select
+                  <select
                   value={rightCoin?.id || ''}
                   onChange={(e) => {
-                    const coin = allCoins.find(c => c.id === parseInt(e.target.value))
-                    setRightCoin(coin ? {...coin, id: coin.id} : null)
+                    const selectedId = e.target.value
+                    const coin = allCoins.find(c => String(c.id) === String(selectedId))
+                    setRightCoin(coin ? { ...coin, id: coin.id } : null)
                   }}
                   className="w-full border-2 rounded-lg px-3 py-2 mb-3 font-medium"
                   disabled={isBattling}

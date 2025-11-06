@@ -1,3 +1,4 @@
+export const runtime = 'nodejs'
 import { NextRequest, NextResponse } from 'next/server'
 
 // Proxy image download through Next API to avoid mixed content/CORS
@@ -73,8 +74,8 @@ export async function GET(
 
     // Fallback: Try to use Storage SDK if available
     try {
-      const { ogStorageSDK } = await import('../../../lib/0gStorageSDK')
-      const imageData = await ogStorageSDK.downloadData(hash)
+      const { polStorageSDK } = await import('../../../lib/polStorageSDK')
+      const imageData = await polStorageSDK.downloadData(hash)
       
       if (imageData && typeof imageData === 'object') {
         // If it's a JSON object, try to extract image data

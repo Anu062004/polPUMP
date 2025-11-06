@@ -1,5 +1,5 @@
 import { ethers } from 'ethers'
-import { ogStorageSDK } from './0gStorageSDK'
+import { polStorageSDK } from './polStorageSDK'
 
 // TokenFactory ABI
 const TOKEN_FACTORY_ABI = [
@@ -70,7 +70,7 @@ class TokenFactoryService {
     )
 
     // Initialize other services
-    await ogStorageSDK.initialize()
+    await polStorageSDK.initialize()
 
     console.log('✅ TokenFactory service initialized')
     console.log(`🏭 Factory address: ${factoryAddress}`)
@@ -106,7 +106,7 @@ class TokenFactoryService {
         }
 
         // Upload metadata to storage
-        const uploadResult = await ogStorageSDK.uploadData(metadata)
+        const uploadResult = await polStorageSDK.uploadData(metadata)
         metadataURI = uploadResult.rootHash
         
         console.log(`✅ Metadata uploaded: ${metadataURI}`)
@@ -119,7 +119,7 @@ class TokenFactoryService {
           external_url: window.location.origin
         }
         
-        const uploadResult = await ogStorageSDK.uploadData(metadata)
+        const uploadResult = await polStorageSDK.uploadData(metadata)
         metadataURI = uploadResult.rootHash
         
         console.log(`✅ Metadata uploaded: ${metadataURI}`)
@@ -190,7 +190,7 @@ class TokenFactoryService {
       }
 
       // Save to local storage
-      await ogStorageSDK.saveCoinToLocal({
+      await polStorageSDK.saveCoinToLocal({
         id: tokenAddress,
         name: params.name,
         symbol: params.symbol,

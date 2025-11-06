@@ -1,4 +1,4 @@
-import { ogStorageSDK } from './0gStorageSDK'
+import { polStorageSDK } from './polStorageSDK'
 
 export interface MarketSnapshot {
   tokenAddress: string
@@ -34,7 +34,7 @@ export async function saveMarketSnapshot(tokenAddress: string, snapshot: MarketS
 
     const didUpload = shouldUpload && uploadsEnabled
     const uploaded = didUpload
-      ? await ogStorageSDK.uploadData(snapshot, meta, { quiet: true })
+      ? await polStorageSDK.uploadData(snapshot, meta, { quiet: true })
       : null
     if (typeof window !== 'undefined') {
       // Only update pointer when an actual remote upload was attempted and enabled
@@ -69,7 +69,7 @@ export async function getCachedMarketSnapshot(tokenAddress: string, maxAgeMs: nu
       }
       const root = localStorage.getItem(pointerKey(tokenAddress))
       if (root && root !== '0x') {
-        const from0g = await ogStorageSDK.downloadData(root)
+        const from0g = await polStorageSDK.downloadData(root)
         if (from0g && typeof from0g.timestamp === 'number') {
           localStorage.setItem(cacheKey(tokenAddress), JSON.stringify(from0g))
           return from0g as MarketSnapshot
